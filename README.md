@@ -10,9 +10,9 @@ A newrelic runner for saltstack has been created to perform tasks like creation 
 
 1) [Command to create a synthetic alert][synthetics_create]
 
-2) [Command to update a synthetic alert][synthetics_listAll]
+2) [Command to update a synthetic alert][synthetics_update]
 
-3) [Command to list all created synthetic alert][synthetics_update]
+3) [Command to list all created synthetic alert][synthetics_listAll]
 
 4) [Command to update/upload alert script a synthetic alert][synthetics_updateScript]
 
