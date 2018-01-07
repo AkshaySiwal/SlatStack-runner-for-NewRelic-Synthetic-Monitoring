@@ -46,7 +46,8 @@ return_dict default = n , to print output in form of table
 
 return_dict default = y , to print output in form of dictionary 
 
-###### Example : salt-run newrelic.synthetics_listAll
+###### Example : 
+salt-run newrelic.synthetics_listAll
 
 
 
