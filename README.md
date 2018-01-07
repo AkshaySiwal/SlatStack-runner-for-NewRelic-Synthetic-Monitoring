@@ -14,8 +14,6 @@ A newrelic runner for saltstack has been created to perform tasks like creation 
 
 3) [Command to list all created synthetic alert][synthetics_update]
 
-3) [Command to update a synthetic alert][synthetics_listAll]
-
 4) [Command to update/upload alert script a synthetic alert][synthetics_updateScript]
 
 5) [Command to convert alert script to required format of synthetic alert][synthetics_formatScript]
@@ -50,6 +48,11 @@ To rename alert :      salt-run newrelic.synthetics_update "my_sample_alert"  "n
 
 To change alert frequeny :    salt-run newrelic.synthetics_update "new_name_for_alert" frequency=60
 
+To mute notification :    salt-run newrelic.synthetics_update "monitor_name" status="MUTED"
+
+To enable notification :    salt-run newrelic.synthetics_update "monitor_name" status="ENABLED"
+
+To disable notification :    salt-run newrelic.synthetics_update "monitor_name" status="DISABLED"
 
 ### 3) Command to list all created synthetic alert : 
 
@@ -93,7 +96,7 @@ To change format :   salt-run newrelic.synthetics_formatScript /tmp/akshay.js
 
  ### 6) Command to add alert notification policy to synthetic alert : 
 
-It will attached newrelic alert to given notification policy and you can enable/disable it with this function.
+It will attached newrelic alert to given notification policy with this function.
 
 ```salt-run newrelic.synthetics_alertPolicy_add <alert_name, required>  <policy_id, required> <action, default="true", [string]>  <runbook, default="" [string]>```
 
@@ -105,7 +108,7 @@ To rename alert :    salt-run newrelic.synthetics_alertPolicy_add "my_sample_ale
 
  ### 7) Command to update alert notification policy to synthetic alert : 
 
-It will attached newrelic alert to given notification policy and you can enable/disable it with this function.
+It will update attached newrelic alert to given notification policy and you can enable/disable it with this function.
 
 ```salt-run newrelic.synthetics_alertPolicy_update <alert_name, required>  <policy_id, required> <action, default="true", [string]>  <runbook, default="" [string]>```
 
@@ -116,7 +119,7 @@ To rename alert :    salt-run newrelic.synthetics_alertPolicy_update "my_sample_
 
  ### 8) List alerts synthetics conditions
  
- It will attached newrelic alert to given notification policy and you can enable/disable it with this function.
+ It will list newrelic alerts of a given notification policy with this function.
 
 ```salt-run newrelic.synthetics_alertPolicy_list <policy_id, required>```
 
