@@ -10,7 +10,9 @@ A newrelic runner for saltstack has been created to perform tasks like creation 
 
 1) [Command to create a synthetic alert][synthetics_create]
 
-2) [Command to list all created synthetic alert][synthetics_update]
+2) [Command to update a synthetic alert][synthetics_listAll]
+
+3) [Command to list all created synthetic alert][synthetics_update]
 
 3) [Command to update a synthetic alert][synthetics_listAll]
 
@@ -18,7 +20,11 @@ A newrelic runner for saltstack has been created to perform tasks like creation 
 
 5) [Command to convert alert script to required format of synthetic alert][synthetics_formatScript]
 
-6) [Command to add alert notification policy to synthetic alert][synthetics_alertPolicy_ctrl]
+6) [Command to add alert notification policy to synthetic alert][synthetics_alertPolicy_add]
+
+7) [Command to update alert notification policy to synthetic alert][synthetics_alertPolicy_update]
+
+8) [List alerts synthetics conditions][synthetics_alertPolicy_list]
 
 
 
@@ -35,9 +41,17 @@ salt-run newrelic.synthetics_create my_sample_alert
 
 
 
+### 2) Command to update a synthetic alert :  
+
+```salt-run newrelic.synthetics_update <alert_current_name, required>  <updated_name,default = "NA"[string]> <alert_frequency, default="NA" minutes [number]>  <slaThreshold, default = "NA" [string]) <locations default = "NA" [list])> <type  default="NA" [string]> <status , default = "NA">```
+###### Example :
+
+To rename alert :      salt-run newrelic.synthetics_update "my_sample_alert"  "new_name_for_alert"
+
+To change alert frequeny :    salt-run newrelic.synthetics_update "new_name_for_alert" frequency=60
 
 
-### 2) Command to list all created synthetic alert : 
+### 3) Command to list all created synthetic alert : 
 
  ```salt-run newrelic.synthetics_listAll <return_dict default='n'>```
 Args : 
@@ -48,19 +62,6 @@ return_dict default = y , to print output in form of dictionary
 
 ###### Example : 
 salt-run newrelic.synthetics_listAll
-
-
-
-
-
-### 3) Command to update a synthetic alert :  
-
-```salt-run newrelic.synthetics_update <alert_current_name, required>  <updated_name,default = "NA"[string]> <alert_frequency, default="NA" minutes [number]>  <slaThreshold, default = "NA" [string]) <locations default = "NA" [list])> <type  default="NA" [string]> <status , default = "NA">```
-###### Example :
-
-To rename alert :      salt-run newrelic.synthetics_update "my_sample_alert"  "new_name_for_alert"
-
-To change alert frequeny :    salt-run newrelic.synthetics_update "new_name_for_alert" frequency=60
 
 
 
@@ -94,18 +95,41 @@ To change format :   salt-run newrelic.synthetics_formatScript /tmp/akshay.js
 
 It will attached newrelic alert to given notification policy and you can enable/disable it with this function.
 
-```salt-run newrelic.synthetics_alertPolicy_ctrl <alert_name, required>  <policy_id, required> <action, default="true", [string]>  <runbook, default="" [string]>```
+```salt-run newrelic.synthetics_alertPolicy_add <alert_name, required>  <policy_id, required> <action, default="true", [string]>  <runbook, default="" [string]>```
 
 ###### Example :
 
-To rename alert :    salt-run newrelic.synthetics_alertPolicy_ctrl "my_sample_alert"  124473
+To rename alert :    salt-run newrelic.synthetics_alertPolicy_add "my_sample_alert"  124473
 
 
+
+ ### 7) Command to update alert notification policy to synthetic alert : 
+
+It will attached newrelic alert to given notification policy and you can enable/disable it with this function.
+
+```salt-run newrelic.synthetics_alertPolicy_update <alert_name, required>  <policy_id, required> <action, default="true", [string]>  <runbook, default="" [string]>```
+
+###### Example :
+
+To rename alert :    salt-run newrelic.synthetics_alertPolicy_update "my_sample_alert"  124473
+
+
+ ### 8) List alerts synthetics conditions
+ 
+ It will attached newrelic alert to given notification policy and you can enable/disable it with this function.
+
+```salt-run newrelic.synthetics_alertPolicy_list <policy_id, required>```
+
+###### Example :
+
+To rename alert :    salt-run newrelic.synthetics_alertPolicy_list 124473
 
 
 [synthetics_create]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#1-command-to-create-a-synthetic-alert-
-[synthetics_update]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#2-command-to-list-all-created-synthetic-alert-
-[synthetics_listAll]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#3-command-to-update-a-synthetic-alert-
+[synthetics_update]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#2-command-to-update-a-synthetic-alert-
+[synthetics_listAll]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#3-command-to-list-all-created-synthetic-alert-
 [synthetics_updateScript]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#4-command-to-updateupload-alert-script-a-synthetic-alert-
 [synthetics_formatScript]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#5-command-to-convert-alert-script-to-required-format-of-synthetic-alert-
 [synthetics_alertPolicy_ctrl]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#6-command-to-add-alert-notification-policy-to-synthetic-alert-
+[synthetics_alertPolicy_update]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#7-Command-to-update-alert-notification-policy-to-synthetic-alert-
+[synthetics_alertPolicy_list]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#8-List-alerts-synthetics-conditions-
