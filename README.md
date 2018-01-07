@@ -8,17 +8,17 @@ A newrelic runner for saltstack has been created to perform tasks like creation 
 
 
 
-1) [synthetics_create] [create-url]
+1) [synthetics_create][create-url]
 
-2) [synthetics_update] [synthetics_update]
+2) [synthetics_update][synthetics_update]
 
-3) [synthetics_listAll] [synthetics_listAll]
+3) [synthetics_listAll][synthetics_listAll]
 
-4) [synthetics_updateScript] [synthetics_updateScript]
+4) [synthetics_updateScript][synthetics_updateScript]
 
-5) [synthetics_formatScript] [synthetics_formatScript]
+5) [synthetics_formatScript][synthetics_formatScript]
 
-6) [synthetics_alertPolicy_ctrl] [synthetics_alertPolicy_ctrl]
+6) [synthetics_alertPolicy_ctrl][synthetics_alertPolicy_ctrl]
 
 
 
