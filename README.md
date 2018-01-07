@@ -1,6 +1,6 @@
 # SlatStack-runner-for-NewRelic-Synthetic-Monitoring
 
-A newrelic runner for saltstack has been created to perform tasks like creation and updation of synthetics alerts on newrelic using newrelic APIs from SaltStack. 
+A newrelic runner for saltstack has been created to perform tasks like creation and updation of synthetics alerts on newrelic using newrelic APIs from SaltStack. Downlord newrelic.py and put it in salt runners directory and that's it, no need to restart salt-master.
 
 
 
