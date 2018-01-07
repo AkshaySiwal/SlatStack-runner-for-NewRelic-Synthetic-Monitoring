@@ -130,6 +130,6 @@ To rename alert :    salt-run newrelic.synthetics_alertPolicy_list 124473
 [synthetics_listAll]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#3-command-to-list-all-created-synthetic-alert-
 [synthetics_updateScript]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#4-command-to-updateupload-alert-script-a-synthetic-alert-
 [synthetics_formatScript]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#5-command-to-convert-alert-script-to-required-format-of-synthetic-alert-
-[synthetics_alertPolicy_ctrl]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#6-command-to-add-alert-notification-policy-to-synthetic-alert-
+[synthetics_alertPolicy_add]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#6-command-to-add-alert-notification-policy-to-synthetic-alert-
 [synthetics_alertPolicy_update]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#7-Command-to-update-alert-notification-policy-to-synthetic-alert-
 [synthetics_alertPolicy_list]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#8-List-alerts-synthetics-conditions-
