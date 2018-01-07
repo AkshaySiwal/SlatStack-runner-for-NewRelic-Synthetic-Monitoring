@@ -98,9 +98,9 @@ To rename alert :    salt-run newrelic.synthetics_alertPolicy_ctrl "my_sample_al
 
 
 
-[synthetics_create]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#ommand-to-create-a-synthetic-alert
-[synthetics_update]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#Command-to-list-all created synthetic alert
-[synthetics_listAll]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#Command-to-update-a-synthetic-alert
-[synthetics_updateScript]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#Command-to-update/upload-alert-script-a-synthetic-alert
-[synthetics_formatScript]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#Command-to-convert-alert-script-to-required-format-of-synthetic-alert
-[synthetics_alertPolicy_ctrl]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#Command-to-add-alert-notification-policy-to-synthetic-alert
+[synthetics_create]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#1-ommand-to-create-a-synthetic-alert-
+[synthetics_update]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#2-Command-to-list-all created-synthetic-alert-
+[synthetics_listAll]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#3-Command-to-update-a-synthetic-alert-
+[synthetics_updateScript]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#4-Command-to-update/upload-alert-script-a-synthetic-alert-
+[synthetics_formatScript]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#5-Command-to-convert-alert-script-to-required-format-of-synthetic-alert-
+[synthetics_alertPolicy_ctrl]: https://github.com/AkshaySiwal/SlatStack-runner-for-NewRelic-Synthetic-Monitoring#6-Command-to-add-alert-notification-policy-to-synthetic-alert-
