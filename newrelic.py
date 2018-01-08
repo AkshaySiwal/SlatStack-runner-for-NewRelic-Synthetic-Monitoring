@@ -1,25 +1,23 @@
 import requests, json, base64,fileinput, re
 url  = 'https://synthetics.newrelic.com/synthetics/api/v3/monitors'
-newrelic_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+api_key = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 ############ Newrelick create script_browser check ########
 
-def synthetics_create(name, frequency = 15 , slaThreshold = "10.0", locations = [ "AWS_US_WEST_1" ], type =  "script_browser" ) :
+def synthetics_create(name, frequency = 15 , slaThreshold = "10.0", locations = "AWS_US_WEST_1" , type =  "script_browser" ) :
   headers = {
-      'X-Api-Key': newrelic_key,
+      'X-Api-Key': api_key,
       'Content-Type': 'application/json',
   }
-  data = json.dumps({ "name" : name, "frequency" : frequency, "locations" : locations, "type" : type , "status" : "enabled", "slaThreshold" : slaThreshold })
+  loc = locations.split(';')
+
+  data = json.dumps({ "name" : name, "frequency" : frequency, "locations" : loc, "type" : type , "status" : "enabled", "slaThreshold" : slaThreshold })
   try :
     response = requests.post( url=url, headers=headers, data=data )
   except Exception as e:
-    print '\nException : Unable to create monitor "' + name + '"\n' 
-    return False
+    return 'Exception : Unable to create monitor "' + name + '"' , False
   if response.status_code / 100 != 2 :
-    print '\nHttp-code ' + str(response.status_code) + ' : Unable to create monitor "' + name + '"'
-    print 'You may run it again if you are sure there is no network errors\n'
-    return False
-  print '\nHttp-code ' + str(response.status_code) + ' : Created monitor "' + name + '"\n' 
-  return True
+    return 'Http-code ' + str(response.status_code) + ' : Unable to create monitor "' + name + '"' + 'You may run it again if you are sure there is no network errors' , False
+  return 'Http-code ' + str(response.status_code) + ' : Created monitor "' + name + '"', True
   
 
 
@@ -31,11 +29,10 @@ def synthetics_update(name, updated_name = "NA", frequency = "NA" , slaThreshold
   try :
     my_id = my_dict[name]['id']
   except Exception as e:
-    print '\nException : ' + name + ' does not exist. Please create it first with command "salt-run newrelic.synthetics_create <name>"\n'
-    return False
+    return 'Exception : ' + name + ' does not exist. Please create it first with command "salt-run newrelic.synthetics_create <name>"', False
 
   headers = {
-      'X-Api-Key': newrelic_key,
+      'X-Api-Key': api_key,
       'Content-Type': 'application/json',
   }
 
@@ -44,25 +41,23 @@ def synthetics_update(name, updated_name = "NA", frequency = "NA" , slaThreshold
   for k,v in data_raw.items() :
     if v != "NA" :
       data[k] = v 
+  if "locations" in data :
+      data["locations"] = locations.split(';')
   data = json.dumps( data )
   update_url = url + '/' + my_id
   try :
     response = requests.patch( url=update_url, headers=headers, data=data )
   except Exception as e:
-    print '\nException : Unable to update monitor "' + name + '"\n'
-    return False
+    return 'Exception : Unable to update monitor "' + name + '"', False
   if response.status_code / 100 != 2 :
-    print '\nHttp-code ' + str(response.status_code) + ' : Unable to update monitor "' + name + '"'
-    print 'You may run it again if you are sure there is no network errors\n'
-    return False
-  print '\nHttp-code ' + str(response.status_code) + ' : Updated monitor "' + name + '"\n'
-  return True
+    return 'Http-code ' + str(response.status_code) + ' : Unable to update monitor "' + name + '"' + 'You may run it again if you are sure there is no network errors', False
+  return '\nHttp-code ' + str(response.status_code) + ' : Updated monitor "' + name + '"' + str(data), True
 
 ################## List all monitors ##########################
 
 def synthetics_listAll( return_dict='n') :
   headers = {
-      'X-Api-Key': newrelic_key,
+      'X-Api-Key': api_key,
   }
   offset = 0
   my_limit = 100
@@ -124,7 +119,7 @@ def synthetics_updateScript( name, script_file ) :
     script = f.read()
   encoded_script = base64.b64encode(script)
   headers = {
-      'X-Api-Key': newrelic_key,
+      'X-Api-Key': api_key,
       'Content-Type': 'application/json',
   }
   data = json.dumps({ "scriptText" : encoded_script })
@@ -132,14 +127,10 @@ def synthetics_updateScript( name, script_file ) :
   try :
     response = requests.put( url=edit_url, headers=headers, data=data )
   except Exception as e:
-    print '\nException : Unable to update monitor "' + name + '"\n'
-    return False
+    return 'Exception : Unable to update monitor "' + name + '"', False
   if response.status_code / 100 != 2 :
-    print '\nHttp-code ' + str(response.status_code) + ' : Unable to update monitor "' + name + '"'
-    print 'You may run it again if you are sure there is no network errors\n'
-    return False
-  print '\nHttp-code ' + str(response.status_code) + ' : Updated monitor "' + name + '"\n'
-  return True
+    return 'Http-code ' + str(response.status_code) + ' : Unable to update monitor "' + name + '"' + 'You may run it again if you are sure there is no network errors', False
+  return 'Http-code ' + str(response.status_code) + ' : Updated monitor "' + name + '"', True
 
 
 def synthetics_formatScript(filename) :
@@ -160,11 +151,10 @@ def synthetics_alertPolicy_add( name, policy_id, action="true", runbook="" ) :
   try :
     my_id = my_dict[name]['id']
   except Exception as e:
-    print '\nException : ' + name + ' does not exist. Please create it first with command "salt-run newrelic.synthetics_create <name>"\n'
-    return False
+    return 'Exception : ' + name + ' does not exist. Please create it first with command "salt-run newrelic.synthetics_create <name>"', False
   policy_url = 'https://api.newrelic.com/v2/alerts_synthetics_conditions/policies/' + str(policy_id) + '.json'
   headers = {
-      'X-Api-Key': newrelic_key,
+      'X-Api-Key': api_key,
       'Content-Type': 'application/json',
   }
   data = json.dumps({ 
@@ -179,14 +169,10 @@ def synthetics_alertPolicy_add( name, policy_id, action="true", runbook="" ) :
   try :
     response = requests.post( url=policy_url, headers=headers, data=data )
   except Exception as e:
-    print '\nException : Unable to update alert policy ' + str(policy_id) + ' for monitor "' + name + '"\n'
-    return False
+    return 'Exception : Unable to update alert policy ' + str(policy_id) + ' for monitor "' + name + '"', False
   if response.status_code / 100 != 2 :
-    print '\nHttp-code ' + str(response.status_code) + ' : Unable to update alert policy ' + str(policy_id) + ' for monitor "' + name + '"'
-    print 'You may run it again if you are sure there is no network errors\n'
-    return False
-  print '\nHttp-code ' + str(response.status_code) + ' : Updated alert policy ' + str(policy_id) + ' for monitor "' + name + '"\n'
-  return True
+    return 'Http-code ' + str(response.status_code) + ' : Unable to update alert policy ' + str(policy_id) + ' for monitor "' + name + '"', 'You may run it again if you are sure there is no network errors', False
+  return '\nHttp-code ' + str(response.status_code) + ' : Updated alert policy ' + str(policy_id) + ' for monitor "' + name + '"', True
 
 
 ############### Update my checkwith Alert policy  ##################################
@@ -196,8 +182,7 @@ def synthetics_alertPolicy_update( name,  policy_id, action="true", runbook="" )
   try :
     my_id = my_dict[name]['id']
   except Exception as e:
-    print '\nException : ' + name + ' does not exist. Please create it first with command "salt-run newrelic.synthetics_create <name>"\n'
-    return False
+    return 'Exception : ' + name + ' does not exist. Please create it first with command "salt-run newrelic.synthetics_create <name>"', False
   my_con = synthetics_alertPolicy_list( policy_id)
   try :
     for i in my_con['synthetics_conditions'] :
@@ -205,13 +190,12 @@ def synthetics_alertPolicy_update( name,  policy_id, action="true", runbook="" )
             my_con_id = i['id']
             break
   except Exception as e:
-    print '\nException : ' + name + ' does not have any alert condition defined. Please create alert condition first with command "salt-run newrelic.alertPolicy_add <monitor-name> <policy-id> <true/false [defalut true]> <runbook-url [optional]>"\n'
-    return False
+    return 'Exception : ' + name + ' does not have any alert condition defined. Please create alert condition first with command "salt-run newrelic.alertPolicy_add <monitor-name> <policy-id> <true/false [defalut true]> <runbook-url [optional]>"', False
 
 
   policy_url = 'https://api.newrelic.com/v2/alerts_synthetics_conditions/' + str(my_con_id) + '.json'
   headers = {
-      'X-Api-Key': newrelic_key,
+      'X-Api-Key': api_key,
       'Content-Type': 'application/json',
   }
   data = json.dumps({
@@ -226,14 +210,10 @@ def synthetics_alertPolicy_update( name,  policy_id, action="true", runbook="" )
   try :
     response = requests.put( url=policy_url, headers=headers, data=data )
   except Exception as e:
-    print '\nException : Unable to update alert condition for policy ' + str(policy_id) + ' for monitor "' + name + '"\n'
-    return False
+    return 'Exception : Unable to update alert condition for policy ' + str(policy_id) + ' for monitor "' + name + '"', False
   if response.status_code / 100 != 2 :
-    print '\nHttp-code ' + str(response.status_code) + ' : Unable to update alert condition for policy ' + str(policy_id) + ' for monitor "' + name + '"'
-    print 'You may run it again if you are sure there is no network errors\n'
-    return False
-  print '\nHttp-code ' + str(response.status_code) + ' : Updated alert condition policy ' + str(policy_id) + ' for monitor "' + name + '"\n'
-  return True
+    return '\nHttp-code ' + str(response.status_code) + ' : Unable to update alert condition for policy ' + str(policy_id) + ' for monitor "' + name + '"', 'You may run it again if you are sure there is no network errors', False
+  return 'Http-code ' + str(response.status_code) + ' : Updated alert condition policy ' + str(policy_id) + ' for monitor "' + name + '"', False
                  
 
 
@@ -242,7 +222,7 @@ def synthetics_alertPolicy_update( name,  policy_id, action="true", runbook="" )
 def synthetics_alertPolicy_list( policy_id ) :
   policy_list_url = 'https://api.newrelic.com/v2/alerts_synthetics_conditions.json'
   headers = {
-      'X-Api-Key': newrelic_key,
+      'X-Api-Key': api_key,
       'Content-Type': 'application/json',
   }
   params = {
@@ -252,14 +232,9 @@ def synthetics_alertPolicy_list( policy_id ) :
     response = requests.get( url=policy_list_url, headers=headers, params=params )
     out = json.loads(response.text)
   except Exception as e:
-    print '\nException : Unable to list conditions for alert policy ' + str(policy_id) + '\n'
-    return False
+    return '\nException : Unable to list conditions for alert policy ' + str(policy_id), False
   if response.status_code / 100 != 2 :
-    print '\nHttp-code ' + str(response.status_code) + ' : Unable to list conditions for alert policy ' + str(policy_id)
-    print 'You may run it again if you are sure there is no network errors\n'
-    return False
-#  print '\nHttp-code ' + str(response.status_code) + ' : List of conditions for alert policy ' + str(policy_id) + '\n'
-#  print True
-  return out
+    return 'Http-code ' + str(response.status_code) + ' : Unable to list conditions for alert policy ' + str(policy_id), 'You may run it again if you are sure there is no network errors', False
+  return '\nHttp-code ' + str(response.status_code) + ' : List of conditions for alert policy ' + str(policy_id) , out, True
 
 
